@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>折线图</title>
+    <style>
+        .div {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div"></div>
+</body>
+<script src="../js/echarts.js"></script>
+<script>
+    console.log(document.getElementsByClassName("div"));
+    var mChart = echarts.init(document.getElementsByTagName("div")[0]);
+    var yarr = [65, 80, 96, 88, 76, 93]
+    var yarr1 = [66, 88, 92, 83, 77, 99]
+    var xarr = ['小明', '小红', '张三', '李四', '王二', '小麻']
+    var option = {
+        xAxis: {
+            type: "category",
+            data: xarr
+        },
+        yAxis: {
+            type: "value"
+        },
+        tooltip: {//提示工具
+            //show: true,
+            trigger: 'axis',
+            triggerOn: 'mousemove',//出发方式 mousemove click
+            // formatter: '{b} 的成绩是 {c}'
+            formatter: function (arg) { // 文字格式化
+                return arg[0].name + '的分数是:' + arg[0].data
+            },
+            alwaysShowContent: true
+
+        },
+        series: [
+            {
+                name: "考试成绩",
+                type: "line",
+                data: yarr,
+                markPoint: {
+                    data: [
+                        { type: "max" },
+                        { type: "min" },
+                    ],
+                    itemStyle: {
+                        color: "pink"
+                    }
+                },
+                markLine: {
+                    data: [
+                        { type: "average" }
+                    ],
+                    itemStyle: {
+                        color: "green"
+                    }
+                },
+                markArea: {// 标记区域
+
+                },
+                smooth: true,//是否为平滑线
+                lineStyle: {
+                    color: 'green',
+                    type: 'solid' // dashed dotted solid
+                },
+                areaStyle: { // 线和x轴形成的区域设置
+                    color: 'pink'
+                },
+                stack:'all'
+            },
+            {
+                type:"line",
+                data:yarr1,
+                stack:'all',//层叠性 两个数值叠加到一起
+            },
+            
+            
+        ]
+
+
+    }
+
+
+    mChart.setOption(option);
+
+</script>
+
+</html>

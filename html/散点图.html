@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>初学</title>
+    <title>散点图</title>
     <style>
         .div {
             width: 500px;
@@ -21,9 +21,12 @@
 <script>
     console.log(document.getElementsByClassName("div"));
     var mChart = echarts.init(document.getElementsByTagName("div")[0]);
-    var option = {}
+    var yarr = [65, 80, 96, 88, 76, 93]
+    var xarr = ['小明', '小红', '张三', '李四', '王二', '小麻']
+    var option = {
+    }
 
-
+ 
     mChart.setOption(option);
 
 </script>

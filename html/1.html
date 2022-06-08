@@ -1,12 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>初学</title>
+    <style>
+        .div {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
 </head>
-<body> 
-    
+
+<body>
+    <div class="div"></div>
 </body>
+<script src="../js/echarts.js"></script>
+<script>
+    console.log(document.getElementsByClassName("div"));
+    var mChart = echarts.init(document.getElementsByTagName("div")[0]);
+    var option = {
+        title: { // 标题设置
+            text: '成绩展示', // 标题文字
+            textStyle: { // 标题文字样式设置
+                color: 'red'
+            },
+            borderWidth: 5, // 标题边框宽度
+            borderColor: 'blue', // 标题边框颜色
+            borderRadius: 5, // 标题边框圆角
+            left: 50, // 标题距离左边的距离
+            top: 10 // 标题距离顶部的距离
+        },
+        xAxis: {
+            type: "category",//类目轴
+            data: ['小明', '小红', '张三', '李四', '王二', '小麻'],
+        },
+        yAxis: {
+            type: "value"//数值轴
+        },
+        tooltip: {//提示工具
+            //show: true,
+            trigger: 'axis',
+            triggerOn: 'mousemove',//出发方式 mousemove click
+            // formatter: '{b} 的成绩是 {c}'
+            formatter: function (arg) { // 文字格式化
+                return arg[0].name + '的分数是:' + arg[0].data
+            },
+            alwaysShowContent: true
+
+        },
+        toolbox: {
+        feature: {
+          saveAsImage: {}, // 导出图片
+          dataView: {}, // 数据视图
+          restore: {}, // 重置
+          dataZoom: {}, // 区域缩放
+          magicType: {
+            type: ['bar', 'line']
+          } // 动态图表类型的切换
+        }
+      },
+        series: [
+            {
+                title: "语文",
+                type: 'bar',
+                data: [65, 80, 96, 88, 76, 93],
+                itemStyle: {
+                    normal: {
+                        //这里是重点
+                        color: function (params) { 
+                            //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                            var colorList = ['rgb(252, 0, 255)','rgb(0, 219, 222)', '#2c3e50', 'rgb(0, 219, 222)',' rgb(44, 62, 80)', 'rgb(52, 152, 219)'];
+                            return colorList[params.dataIndex]
+                        }
+                    }
+                },
+                markPoint: {
+                    data: [
+                        {
+                            name: '最大值',
+                            type: 'max'
+                        }, {
+                            name: '最小值',
+                            type: 'min',
+                        },
+                    ],
+                    itemStyle:{
+                        color:"green",//改变最大值 最小值颜色
+                        //backgroundColor:"green"
+                    }
+                },
+                markLine: {
+                    data: [
+                        {
+                            name: '平均值',
+                            type: 'average'
+                        },
+                    ],
+                    itemStyle:{
+                        color:"pink",//改变平均值的样式
+                       
+                    }
+
+                },
+                label: { // 柱状图上的文字设置
+                    show: true, // 是否显示
+                    rotate: 60, // 旋转角度
+                    position: 'top', // 显示位置
+                    //backgroundColor:"green"//小标题颜色
+                },
+            },
+
+
+        ],
+
+
+    }
+
+
+    mChart.setOption(option);
+
+</script>
+
 </html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初学</title>
+    <style>
+        .div {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div"></div>
+</body>
+<script src="../js/echarts.js"></script>
+<script>
+    console.log(document.getElementsByClassName("div"));
+    var mChart = echarts.init(document.getElementsByTagName("div")[0]);
+    var option = {}
+
+
+    mChart.setOption(option);
+
+</script>
+
+</html>

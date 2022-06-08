@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>柱状图</title></title>
+    <title>柱状图</title>
+    </title>
     <style>
         .div {
             width: 500px;
@@ -22,6 +23,19 @@
     console.log(document.getElementsByClassName("div"));
     var mChart = echarts.init(document.getElementsByTagName("div")[0]);
     var option = {
+        dataZoom: [
+            {
+                type: 'slider', // 缩放的类型  slide代表滑块  inside代表依靠鼠标滚轮
+                //  type:"inside"//鼠标滑轮
+                xAxisIndex: 0
+            },
+            {
+                type: 'slider',
+                yAxisIndex: 0,
+                start: 0, // 初始渲染所显示的内容 渲染完成后, 数据筛选的初始值, 百分比
+                end: 80 // 初始渲染所显示的内容 渲染完成后, 数据筛选的结束值, 百分比
+            }
+        ],
         title: { // 标题设置
             text: '成绩展示', // 标题文字
             textStyle: { // 标题文字样式设置
@@ -52,16 +66,16 @@
 
         },
         toolbox: {
-        feature: {
-          saveAsImage: {}, // 导出图片
-          dataView: {}, // 数据视图
-          restore: {}, // 重置
-          dataZoom: {}, // 区域缩放
-          magicType: {
-            type: ['bar', 'line']
-          } // 动态图表类型的切换
-        }
-      },
+            feature: {
+                saveAsImage: {}, // 导出图片
+                dataView: {}, // 数据视图
+                restore: {}, // 重置
+                dataZoom: {}, // 区域缩放
+                magicType: {
+                    type: ['bar', 'line']
+                } // 动态图表类型的切换
+            }
+        },
         series: [
             {
                 title: "语文",
@@ -70,9 +84,9 @@
                 itemStyle: {
                     normal: {
                         //这里是重点
-                        color: function (params) { 
+                        color: function (params) {
                             //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
-                            var colorList = ['rgb(252, 0, 255)','rgb(0, 219, 222)', '#2c3e50', 'rgb(0, 219, 222)',' rgb(44, 62, 80)', 'rgb(52, 152, 219)'];
+                            var colorList = ['rgb(252, 0, 255)', 'rgb(0, 219, 222)', '#2c3e50', 'rgb(0, 219, 222)', ' rgb(44, 62, 80)', 'rgb(52, 152, 219)'];
                             return colorList[params.dataIndex]
                         }
                     }
@@ -87,8 +101,8 @@
                             type: 'min',
                         },
                     ],
-                    itemStyle:{
-                        color:"green",//改变最大值 最小值颜色
+                    itemStyle: {
+                        color: "green",//改变最大值 最小值颜色
                         //backgroundColor:"green"
                     }
                 },
@@ -99,9 +113,9 @@
                             type: 'average'
                         },
                     ],
-                    itemStyle:{
-                        color:"pink",//改变平均值的样式
-                       
+                    itemStyle: {
+                        color: "pink",//改变平均值的样式
+
                     }
 
                 },

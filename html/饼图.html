@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>饼图</title>
+    <style>
+        .div {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div"></div>
+</body>
+<script src="../js/echarts.js"></script>
+<script>
+    console.log(document.getElementsByClassName("div"));
+    var mChart = echarts.init(document.getElementsByTagName("div")[0]);
+    var pieData = [
+        {
+            name: '淘宝',
+            value: 11231
+        },
+        {
+            name: '京东',
+            value: 22673
+        },
+        {
+            name: '唯品会',
+            value: 6123
+        },
+        {
+            name: '1号店',
+            value: 8989
+        },
+        {
+            name: '聚美优品',
+            value: 6700
+        }
+    ]
+    var option = {
+        title: {
+            text: "消费统计",
+            //标题位置
+            left: "center",
+            top: "top",
+            //标题样式
+            textStyle: {
+                fontSize: 24,
+                color: "#4169e1",
+            },
+        },
+        series: {
+            type: 'pie',
+            data: pieData,
+            label: {
+                show: false,
+                position: 'center',//显示在圆环内部
+                formatter: function (arg) {
+                    return arg.name + "平台" + arg.value + "元\n" + arg.percent + "%"
+                }
+            },
+            avoidLabelOverlap: false,
+            itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 5
+            },
+            emphasis: {//移动上去显示出来
+                label: {
+                    show: true,
+                    fontSize: '20',
+                    fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            // radius: '20%' // 百分比参照的是宽度和高度中较小的那一部分的一半来进行百分比设置
+            radius: ['40%', '65%'], // 第0个元素代表的是內圆的半径 第1个元素外圆的半径
+            //roseType:'radius', // 南丁格尔图 饼图的每一个区域的半径是不同的
+            // selectedMode: 'single' // 选中的效果,能够将选中的区域偏离圆点一小段距离
+            //selectedMode: 'multiple',
+            // selectedOffset: 50
+        }
+    }
+
+
+    mChart.setOption(option);
+
+</script>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>散点图</title>
+  <script src="../js/echarts.js"></script>
+  <script src="../js/jquery.js"></script>
+</head>
+
+<body>
+  <div style="height:400px"></div>
+  <script>
+    //1. ECharts最基本的代码结构
+    //2. x轴和y轴数据 二维数组 [ [身高,体重],...   ]
+    //3. 将type的值设置为scatter, x轴和y轴的type都是value
+    var mCharts = echarts.init(document.querySelector("div"));
+    mCharts.showLoading() // 在获取数据之前, 显示加载动画
+    $.get("../素材/data/data_test.json",function(data){
+        
+        var axisData = []
+    for (var i = 0; i < data.length; i++) {
+      var height = data[i].height
+      var weight = data[i].weight
+      var newArr = [height, weight]
+      axisData.push(newArr)
+    }
+    console.log(axisData)
+    mCharts.hideLoading() // 当服务器数据获取成功之后, 隐藏加载动画
+    var option = {
+      xAxis: {
+        type: 'value',
+        scale: true
+      },
+      yAxis: {
+        type: 'value',
+        scale: true
+      },
+      series: [
+        {
+          // type: 'scatter',
+          type: 'effectScatter', // 指明图表为带涟漪动画的散点图
+          showEffectOn: 'emphasis', // 出现涟漪动画的时机 render emphasis
+          rippleEffect: {
+            scale: 10 // 涟漪动画时, 散点的缩放比例
+          },
+          data: axisData,
+          // symbolSize: 30
+          symbolSize: function (arg) { // 控制散点的大小
+            // console.log(arg)
+            var height = arg[0] / 100
+            var weight = arg[1]
+            // bmi = 体重kg / (身高m*身高m)   大于28,就代表肥胖
+            var bmi = weight / (height * height)
+            if (bmi > 28) {
+              return 20
+            }
+            return 5
+          },
+          itemStyle: { // 控制散点的样式
+            color: function (arg) {
+              // console.log(arg)
+              var height = arg.data[0] / 100
+              var weight = arg.data[1]
+              // bmi = 体重kg / (身高m*身高m)   大于28,就代表肥胖
+              var bmi = weight / (height * height)
+              if (bmi > 28) {
+                return 'red'
+              }
+              return 'green'
+            }
+          }
+        }
+      ]
+    }
+    mCharts.setOption(option)
+    })
+  window.onresize=function () {
+    mCharts.resize
+
+    }
+  </script>
+</body>
+
+</html>

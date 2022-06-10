@@ -8,7 +8,6 @@
     <title>饼图</title>
     <style>
         .div {
-            width: 500px;
             height: 500px;
         }
     </style>
@@ -18,17 +17,37 @@
     <div class="div"></div>
 </body>
 <script src="../js/echarts.js"></script>
+<script src="../js/jquery.js"></script>
+<button id="btn1">触发行为</button>
+  <button id="btn2">clear</button>
+  <button id="btn3">setOption</button>
+  <button id="btn4">dispose</button>
 <script>
     console.log(document.getElementsByClassName("div"));
     var mChart = echarts.init(document.getElementsByTagName("div")[0]);
     var pieData = [
         {
             name: '淘宝',
-            value: 11231
+            value: 11231,
+            // itemStyle:{
+            //     color:'pink'
+            // },
+
         },
         {
             name: '京东',
-            value: 22673
+            value: 22673,
+            itemStyle: {
+                color: "#2193B0"
+            },
+            emphasis: {//为每一个盘块悬停改变颜色
+                itemStyle: {
+                    color: "red"
+                },
+                label:{
+                    color:'#4169e1"'
+                }
+            }
         },
         {
             name: '唯品会',
@@ -44,6 +63,11 @@
         }
     ]
     var option = {
+        legend:{
+            data:['淘宝','京东','唯品会','1号店','聚美优品'],
+            top: 33,// 整个图例的top
+            icon: 'circle',// 图例的形状，带圆角的矩形（roundRect）
+        },
         title: {
             text: "消费统计",
             //标题位置
@@ -58,25 +82,36 @@
         series: {
             type: 'pie',
             data: pieData,
+            color: ['pink', 'yellow', 'black', 'orange', 'red'],
+          
             label: {
                 show: false,
                 position: 'center',//显示在圆环内部
                 formatter: function (arg) {
                     return arg.name + "平台" + arg.value + "元\n" + arg.percent + "%"
-                }
+                },
+               
             },
-            avoidLabelOverlap: false,
+
             itemStyle: {
-                borderRadius: 10,
+                borderRadius: 15,
                 borderColor: '#fff',
-                borderWidth: 5
+                borderWidth: 5,
             },
             emphasis: {//移动上去显示出来
                 label: {
                     show: true,
                     fontSize: '20',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    color: ['pink', 'yellow', 'black', 'orange', 'red'],
+                },
+                itemStyle:{
+                    //color: ['red', 'green', 'blue', 'skyblue', 'purple'],
+                    lable:{
+                        color:'#999'
+                    }
                 }
+
             },
             labelLine: {
                 show: false
@@ -92,7 +127,41 @@
 
 
     mChart.setOption(option);
+    window.onresize = mChart.resize
+    mChart.on("click",arg=>{
+        console.log(arg)
+    })
+    mChart.on('legendselectchanged',arg=>{
+        console.log(arg)
+    })
+    $('#btn1').click(function () {
+      // 模拟用户的行为
+      mChart.dispatchAction({
+        type: 'highlight',
+        seriesIndex: 0, // 系列的索引
+        dataIndex: 1 // 数据的索引
+      })
+      mChart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: 2
+      })
+    })
 
+    $('#btn2').click(function () {
+      // 清空图表的实例
+      mChart.clear()
+    })
+
+    $('#btn3').click(function () {
+      // 重新设置option
+      mChart.setOption(option)
+    })
+
+    $('#btn4').click(function () {
+      // 销毁mCharts
+      mChart.dispose()
+    })
 </script>
 
 </html>

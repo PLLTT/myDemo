@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>柱状图</title>
+    </title>
+    <style>
+        .div {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div"></div>
+</body>
+<script src="../js/echarts.js"></script>
+<script>
+    console.log(document.getElementsByClassName("div"));
+    var xArr=['小明', '小红', '张三', '李四', '王二', '小麻'];
+    var mChart = echarts.init(document.getElementsByTagName("div")[0]);
+    var option = {
+        legend: {
+            icon: 'roundRect',// 图例的形状，带圆角的矩形（roundRect）
+            itemWidth: 15,// 单个icon的width（单位px）
+            itemHeight: 10,// 单个icon的height（单位px）
+            itemGap: 25,// 每个icon之间的距离（单位px）
+            barBorderRadius: 5,// icon的圆角（单位px）
+            top: 33,// 整个图例的top
+            right: 10,// 整个图例的right
+            textStyle: {// 图例的文字颜色，color为一个值时所有的文字颜色相同
+                color: ["#FFC365", '#7FC5FF', '#D12053', '#3AC47E']
+            },
+            data:['语文','数学']
+        },
+        xAxis: {
+            type: "category",//类目轴
+            data: xArr,
+        },
+        yAxis: {
+            type: "value"//数值轴
+        },
+        tooltip: {//提示工具
+            //show: true,
+            trigger: 'axis',
+            triggerOn: 'mousemove',//出发方式 mousemove click
+            // formatter: '{b} 的成绩是 {c}'
+            formatter: function (arg) { // 文字格式化
+                return arg[0].name + '的分数是:' + arg[0].data
+            },
+            alwaysShowContent: true
+
+        },
+
+        series: [
+            {
+                title: "语文",
+                type: 'bar',
+                name:'语文',
+                data: [65, 80, 96, 88, 76, 93],
+                itemStyle: {
+                    //这里是重点
+                    color: function (params) {
+                        //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                        var colorList = ['rgb(252, 0, 255)', 'rgb(0, 219, 222)', '#2c3e50', 'rgb(0, 219, 222)', ' rgb(44, 62, 80)', 'rgb(52, 152, 219)'];
+                        return colorList[params.dataIndex]
+                    }
+                },
+                label: { // 柱状图上的文字设置
+                    show: true, // 是否显示
+                    rotate: 60, // 旋转角度
+                    position: 'top', // 显示位置
+                    //backgroundColor:"green"//小标题颜色
+                },
+            },
+            {
+                title: "语文",
+                type: 'bar',
+                name:'数学',
+                data: [65, 80, 96, 88, 76, 93],
+                itemStyle: {
+                    //这里是重点
+                    color: function (params) {
+                        //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                        var colorList = ['rgb(252, 0, 255)', 'rgb(0, 219, 222)', '#2c3e50', 'rgb(0, 219, 222)', ' rgb(44, 62, 80)', 'rgb(52, 152, 219)'];
+                        return colorList[params.dataIndex]
+                    }
+                },
+                label: { // 柱状图上的文字设置
+                    show: true, // 是否显示
+                    rotate: 60, // 旋转角度
+                    position: 'top', // 显示位置
+                    //backgroundColor:"green"//小标题颜色
+                },
+            },
+
+
+        ],
+
+
+    }
+
+
+    mChart.setOption(option);
+
+</script>
+
+</html>

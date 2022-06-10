@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自适应</title>
+    <style>
+        .div{
+            height: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div"></div>
+    <script src="../js/echarts.js"></script>
+    <script>
+        console.log(document.getElementsByClassName('div'))
+        var myecharts = echarts.init(document.getElementsByClassName('div')[0]);
+        var option = {
+            xAxis: {
+                type: "category",//类目轴
+                data: ['小明', '小红', '张三', '李四', '王二', '小麻'],
+            },
+            yAxis: {
+                type: "value"//数值轴
+            },
+            series: [
+                {
+                    title: "语文",
+                    type: 'bar',
+                    data: [65, 80, 96, 88, 76, 93],
+                    itemStyle: {
+                        normal: {
+                            //这里是重点
+                            color: function (params) {
+                                //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                                var colorList = ['rgb(252, 0, 255)', 'rgb(0, 219, 222)', '#2c3e50', 'rgb(0, 219, 222)', ' rgb(44, 62, 80)', 'rgb(52, 152, 219)'];
+                                return colorList[params.dataIndex]
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+        myecharts.setOption(option);
+        // window.onresize=function(){
+        //     myecharts.resize()
+        // }
+        window.onresize = myecharts.resize
+    </script>
+</body>
+
+</html>

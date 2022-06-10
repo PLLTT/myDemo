@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自适应</title>
+    <style>
+        .div {
+            height: 600px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="div"></div>
+    <button class="btn">修改动画</button>
+    <button class="btn">添加动画</button>
+    <script src="../js/echarts.js"></script>
+    <script>
+        var xarr = ['小明', '小红', '张三', '李四', '王二', '小麻']
+        var yarr = [65, 80, 96, 88, 76, 93]
+        var colorItem = ['rgb(252, 0, 255)', 'rgb(0, 219, 222)', '#2c3e50', 'rgb(0, 219, 222)', ' rgb(44, 62, 80)', 'rgb(52, 152, 219)'];
+        console.log(document.getElementsByClassName('div'))
+        var myecharts = echarts.init(document.getElementsByClassName('div')[0]);
+        var option = {
+            animation: true,//开启动画
+            // animationDuration: function (arg) {
+            //     // if (arg == 0) {
+            //     //     return 900
+            //     // }
+            //     return (1 + arg) * 2000//动画时长
+            // },
+
+            animationEasing: 'elasticIn',//设置动画样式
+            // animationDelay: function (idx) {
+            //     /**
+            //      * //animationDuration  animationDelay的区别在于
+            //     */
+            //     //animationDuration 动画同时都执行  执行的时间不一样
+            //     //animationDelay 当前一个动画执行完后一个动画才会执行
+            //     // 越往后的数据延迟越大
+            //     console.log(idx)
+            //     return idx * 2000;
+            // },
+            xAxis: {
+                type: "category",//类目轴
+                data: xarr,
+            },
+            yAxis: {
+                type: "value"//数值轴
+            },
+            series: [
+                {
+                    title: "语文",
+                    type: 'bar',
+                    data: yarr,
+                    itemStyle: {
+                        normal: {
+                            //这里是重点
+                            color: function (params) {
+                                //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                                var colorList = colorItem;
+                                console.log(colorList[params.dataIndex])
+                                return colorList[params.dataIndex]
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+        myecharts.setOption(option);
+        // console.log(document.getElementsByClassName('btn')[0])
+        var btn = document.getElementsByClassName('btn')[0]
+        btn.onclick = function () {
+            var newYDataArr = [68, 32, 99, 77, 94, 80, 72, 86]
+            var option = {
+                series: [
+                    {
+                        data: newYDataArr
+                    }
+                ]
+            }
+            myecharts.setOption(option)
+        }
+        var btn1 = document.getElementsByClassName('btn')[1]
+        btn1.onclick = function () {
+            xarr.push("蓝猫")
+            yarr.push(Math.random() * 100);
+            colorItem.push("rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")")
+            //colorItem.push('rag(55,156,208)')
+            option = {
+                xAxis: {
+                    data: xarr,
+                },
+                series: [
+                    {
+                        data: yarr,
+                        itemStyle: {
+                            normal: {
+                                //这里是重点
+                                color: function (params) {
+                                    //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                                    var colorList = colorItem;
+                                    //console.log(colorList[params.dataIndex])
+                                    return colorList[params.dataIndex]
+                                }
+                            }
+                        }
+
+                    }
+                ]
+            }
+            myecharts.setOption(option);
+        }
+        // window.onresize=function(){
+        //     myecharts.resize()
+        // }
+        window.onresize = myecharts.resize
+        //事件
+        myecharts.on('click',arg=>{
+            console.log(arg)
+        })
+    </script>
+</body>
+
+</html>

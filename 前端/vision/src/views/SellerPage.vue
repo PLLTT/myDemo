@@ -1,7 +1,7 @@
 <template>
   <div>
    <sellerPage></sellerPage>
-   
+   第一个
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import sellerPage from "@/components/SellerPage";
 export default {
   components:{
     sellerPage
-  }
+  } 
 };
 </script>
 
